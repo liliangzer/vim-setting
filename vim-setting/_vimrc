@@ -1,0 +1,178 @@
+" An example for a vimrc file.
+"
+" Maintainer:	Bram Moolenaar <Bram@vim.org>
+" Last change:	2017 Sep 20
+"
+" To use it, copy it to
+"     for Unix and OS/2:  ~/.vimrc
+"	      for Amiga:  s:.vimrc
+"  for MS-DOS and Win32:  $VIM\_vimrc
+"	    for OpenVMS:  sys$login:.vimrc
+
+" When started as "evim", evim.vim will already have done these settings.
+if v:progname =~? "evim"
+  finish
+endif
+
+" Get the defaults that most users want.
+source $VIMRUNTIME/defaults.vim
+
+if has("vms")
+  set nobackup		" do not keep a backup file, use versions instead
+else
+  set backup		" keep a backup file (restore to previous version)
+  if has('persistent_undo')
+    set undofile	" keep an undo file (undo changes after closing)
+  endif
+endif
+
+if &t_Co > 2 || has("gui_running")
+  " Switch on highlighting the last used search pattern.
+  set hlsearch
+endif
+
+" Only do this part when compiled with support for autocommands.
+if has("autocmd")
+
+  " Put these in an autocmd group, so that we can delete them easily.
+  augroup vimrcEx
+  au!
+
+  " For all text files set 'textwidth' to 78 characters.
+  autocmd FileType text setlocal textwidth=78
+
+  augroup END
+
+else
+
+  set autoindent		" always set autoindenting on
+
+endif " has("autocmd")
+
+" Add optional packages.
+"
+" The matchit plugin makes the % command work better, but it is not backwards
+" compatible.
+" The ! means the package won't be loaded right away but when plugins are
+" loaded during initialization.
+if has('syntax') && has('eval')
+  packadd! matchit
+endif
+
+if has("gui_running")
+    if has("gui_gtk2")
+        :set guifont=Luxi\ Mono\ 12
+    elseif has("x11")
+        " Also for GTK 1
+        :set guifont=*-lucidatypewriter-medium-r-normal-*-*-180-*-*-m-*-*
+    elseif has("gui_win32")
+        :set guifont=Consolas:h12
+    endif
+endif
+
+set nocompatible              " be iMproved, required 
+filetype off  
+set rtp+=$VIM/vimfiles/bundle/Vundle.vim  
+call vundle#begin('$VIM/vimfiles/bundle') 
+
+"call vundle#begin('~/some/path/here')
+
+" let Vundle manage Vundle
+Plugin 'VundleVim/Vundle.vim'
+
+Plugin 'vim-airline/vim-airline'  
+Plugin 'vim-airline/vim-airline-themes'
+Plugin 'scrooloose/nerdtree'
+Plugin 'scrooloose/syntastic'
+Plugin 'kien/ctrlp.vim'
+Plugin 'c.vim'
+Plugin 'a.vim'
+" Plugin 'taglist.vim'
+Plugin 'majutsushi/tagbar'
+Plugin 'easymotion/vim-easymotion'
+Plugin 'neocomplcache'
+Plugin 'checksyntax'
+Plugin 'omnicppcomplete'
+Plugin 'zhmars/gvimtweak'
+Plugin 'Mark'
+" Plugin 'valloric/youcompleteme'
+
+" colorscheme plugin
+" {
+Bundle 'morhetz/gruvbox'
+Bundle 'mhartington/oceanic-next'
+Bundle 'owickstrom/vim-colors-paramount'
+Bundle 'altercation/vim-colors-solarized'
+Bundle 'kabbamine/yowish.vim'
+" }
+  
+" all of your plugins should be in following
+call vundle#end()            " must
+filetype plugin indent on    " must
+
+" editting settings
+" {
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+set autoindent
+set cindent
+set cindent shiftwidth=4
+set laststatus=2
+set softtabstop=4
+set listchars=tab:>-,trail:-
+set autowrite
+set cursorline
+" }
+
+set tags=tags;
+set autochdir
+
+set ts=4
+set expandtab
+
+" encoding settings
+" {
+set encoding=utf-8
+set fileencodings=utf-8,gbk,latin-1
+set fileencoding=utf-8
+
+" }
+" GUI settings
+" {
+set guioptions-=T
+set guioptions-=m
+set background=dark
+colorscheme gruvbox
+" }
+" gvimtweak settings
+" {
+let g:gvimtweak#window_alpha=200
+let g:gvimtweak#enable_alpha_at_startup=1
+let g:gvimtweak#enable_fullscreen_at_startup=0
+" }
+
+" airline Settings
+" {
+let g:airline_left_sep='>'
+let g:airline_right_sep='<'
+let g:airline_symbols_ascii=1
+" }
+
+" language settings
+" {
+set langmenu=zh_CN.UTF-8
+set helplang=cn
+language messages zh_CN.UTF-8
+" }
+" C.vim Setting
+" {
+let g:C_GlobalTemplateFile = 'D:\Vim\vimfiles\bundle\c.vim\c-support\templates\Templates'
+" }
+" {NeoComplCache Setting
+let g:neocomplcache_enable_at_startup = 1
+let g:neocomplcache_enable_auto_select = 1
+"}
+"{
+map <C-F12> :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
+"}
