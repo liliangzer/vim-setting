@@ -72,44 +72,39 @@ endif
 
 set nocompatible              " be iMproved, required 
 filetype off  
-set rtp+=$VIM/vimfiles/bundle/Vundle.vim  
-call vundle#begin('$VIM/vimfiles/bundle') 
 
-" 另一种选择, 指定一个vundle安装插件的路径
-"call vundle#begin('~/some/path/here')
+call plug#begin('~/.vim/plugged')
 
-" let Vundle manage Vundle
-Plugin 'VundleVim/Vundle.vim'
-
-Plugin 'vim-airline/vim-airline'  
-Plugin 'vim-airline/vim-airline-themes'
-Plugin 'scrooloose/nerdtree'
-Plugin 'scrooloose/syntastic'
-Plugin 'kien/ctrlp.vim'
-Plugin 'c.vim'
-Plugin 'a.vim'
-" Plugin 'taglist.vim'
-Plugin 'majutsushi/tagbar'
-Plugin 'easymotion/vim-easymotion'
-Plugin 'neocomplcache'
-Plugin 'checksyntax'
-Plugin 'omnicppcomplete'
-Plugin 'zhmars/gvimtweak'
-Plugin 'Mark'
-" Plugin 'valloric/youcompleteme'
+Plug 'vim-airline/vim-airline'  
+Plug 'vim-airline/vim-airline-themes'
+Plug 'scrooloose/nerdtree'
+Plug 'kien/ctrlp.vim'
+Plug 'vim-scripts/c.vim'
+Plug 'vim-scripts/a.vim'
+Plug 'vim-scripts/taglist.vim'
+Plug 'majutsushi/tagbar'
+Plug 'easymotion/vim-easymotion'
+Plug 'vim-scripts/checksyntax'
+Plug 'vim-scripts/omnicppcomplete'
+Plug 'vim-scripts/neocomplcache'
+Plug 'zhmars/gvimtweak'
+Plug 'Yggdroot/LeaderF'
+Plug 'junegunn/vim-easy-align'
+Plug 'voldikss/vim-translator'
+Plug 'mhinz/vim-signify'
+Plug 'mhinz/vim-startify'
 
 " colorscheme plugin
 " {
-Bundle 'morhetz/gruvbox'
-Bundle 'mhartington/oceanic-next'
-Bundle 'owickstrom/vim-colors-paramount'
-Bundle 'altercation/vim-colors-solarized'
-Bundle 'kabbamine/yowish.vim'
+Plug 'morhetz/gruvbox'
+Plug 'mhartington/oceanic-next'
+Plug 'owickstrom/vim-colors-paramount'
+Plug 'altercation/vim-colors-solarized'
+Plug 'kabbamine/yowish.vim'
 " }
   
 " 你的所有插件需要在下面这行之前
-call vundle#end()            " 必须
-filetype plugin indent on    " 必须 加载vim自带和插件相应的语法和文件类型相关脚本
+call plug#end()
 
 " editting settings
 " {
@@ -124,9 +119,10 @@ set softtabstop=4
 set listchars=tab:>-,trail:-
 set autowrite
 set cursorline
+set relativenumber
 " }
 
-set tags=tags;
+set tags=tags,../tags;
 set autochdir
 
 set ts=4
@@ -168,14 +164,137 @@ language messages zh_CN.UTF-8
 " }
 " C.vim Setting
 " {
-let g:C_GlobalTemplateFile = 'D:\Vim\vimfiles\bundle\c.vim\c-support\templates\Templates'
+let g:C_GlobalTemplateFile = '~\.vim\plugged\c.vim\c-support\templates\Templates'
 " }
 " {NeoComplCache Setting
 " 作用：在系统启动的时候启动neo  
 let g:neocomplcache_enable_at_startup = 1
-" 作用：提示的时候默认选择地一个，如果你设置为0，每次输入都需要用上下键选择，你不妨修改试试效果就知道了  
+" 作用：提示的时候默认选择地一个，如果你设置为0，每次输入都需要用上下键选择，你不妨修改试试效果就知道了  
 let g:neocomplcache_enable_auto_select = 1
 "}
 "{
 map <C-F12> :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
 "}
+
+""""""""""""""""""""""""""""""
+"Leaderf settings
+""""""""""""""""""""""""""""""
+"文件搜索
+nnoremap <silent> <Leader>f :Leaderf file<CR>
+"历史打开过的文件
+noremap <silent> <Leader>m :Leaderf mru<CR>
+"Buffer
+nnoremap <silent> <Leader>b :Leaderf buffer<CR>
+"函数搜索（仅当前文件里）
+nnoremap <silent> <Leader>F :Leaderf function<CR>
+"模糊搜索，很强大的功能，迅速秒搜
+nnoremap <silent> <Leader>rg :Leaderf rg<CR>
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"junegunn/vim-easy-align
+"添加自定义对齐符号。
+let g:easy_align_delimiters = {
+\ '/': {
+\     'pattern':         '//\+\|/\*\|\*/',
+\     'right_margin':  0,
+\     'delimiter_align': 'l',
+\     'ignore_groups':   ['!Comment']
+\   },
+\ '"': {
+\     'pattern':         '"',
+\     'right_margin':  0,
+\     'delimiter_align': 'l',
+\     'ignore_groups':   ['!Comment']
+\   },
+\ '#': {
+\     'pattern':         '#',
+\     'right_margin':  0,
+\     'delimiter_align': 'l',
+\     'ignore_groups':   ['!Comment']
+\   },
+\ '[': {
+\     'pattern':       '[[\]]',
+\     'left_margin':   0,
+\     'right_margin':  0,
+\     'stick_to_left': 0
+\   },
+\ '(': {
+\     'pattern':       '[()]',
+\     'left_margin':   0,
+\     'right_margin':  0,
+\     'stick_to_left': 0
+\   }
+\ }
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"voldikss/vim-translator
+"按键映射前缀: <leader>t。
+let g:translator_window_type = 'popup'                     "弹出窗口中显示。
+let g:translator_target_lang = 'zh'                        "目标语言为中文。
+let g:translator_source_lang = 'auto'                      "源语言自动识别。
+"使用的翻译工具。
+let g:translator_default_engines = ['bing', 'google', 'haici', 'youdao']
+
+"翻译Window的高亮配置
+hi def link TranslatorQuery             Identifier
+hi def link TranslatorDelimiter         Special
+hi def link TranslatorExplain           Statement
+
+"窗口背景
+hi def link Translator                  Normal
+hi def link TranslatorBorder            NormalFloat
+
+"voldikss/vim-translator
+"普通模式下翻译光标下英文字符串，在命令行显示翻译结果。
+nmap <silent> <Leader>tt <Plug>Translate
+"可视模式下翻译选中英文字符串，在命令行显示翻译结果。
+vmap <silent> <Leader>tt <Plug>TranslateV
+"普通模式下翻译光标下英文字符串，在窗口显示翻译结果。
+nmap <silent> <Leader>tw <Plug>TranslateW
+"可视模式下翻译光标下英文字符串，在窗口显示翻译结果。
+vmap <silent> <Leader>tw <Plug>TranslateWV
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"mhinz/vim-signify
+let g:signify_disable_bydefault = 0                        "默认开启功能。
+"提示符号。
+let g:signify_sign_add = '+'
+let g:signify_sign_delete = '_'
+let g:signify_sign_delete_first_line = '‾'
+let g:signify_sign_change = '~'
+let g:signify_sign_change_delete = g:signify_sign_change . g:signify_sign_delete_first_line
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"mhinz/vim-startify
+let g:startify_disable_at_vimenter = 1                     "启动Vim时启动Startify
+
+"设置书签。
+let g:startify_bookmarks = [
+    \ '~/.vimrc'
+    \ ]
+
+"起始页显示的列表长度。
+let g:startify_files_number = 20
+"加载session目录下的记录。
+let g:startify_session_autoload = 1
+"过滤列表，支持正则表达式。
+let g:startify_skiplist = [
+    \ '/.git/',
+    \ '/.svn/'
+    \ ]
+
+
+""""""""""""""""""""""""""""""
+"window jump settings
+""""""""""""""""""""""""""""""
+nmap <C-h> <C-W><C-h>
+nmap <C-j> <C-W><C-j>
+nmap <C-k> <C-W><C-k>
+nmap <C-l> <C-W><C-l>
+
+let mapleader = ','
+
+nmap <leader>s  :source ~/.vimrc<Enter>
+nmap <leader>e  :edit ~/.vimrc<Enter>
+
+
